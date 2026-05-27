@@ -18,8 +18,6 @@ public class SchoolClass {
     private Long id;
 
     private String teacherName;
-
-    @JsonIgnore
     private String password;
 
     private String classDescription;

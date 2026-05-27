@@ -2,7 +2,9 @@ package com.buddygoals.buddygoals_backend.services;
 
 import com.buddygoals.buddygoals_backend.model.Goal;
 import com.buddygoals.buddygoals_backend.model.Player;
+import com.buddygoals.buddygoals_backend.model.SchoolClass;
 import com.buddygoals.buddygoals_backend.repositories.PlayerRepository;
+import com.buddygoals.buddygoals_backend.repositories.SchoolClassRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,14 +13,22 @@ import java.util.List;
 public class PlayerService {
 
     private final PlayerRepository playerRepository;
+    private final SchoolClassRepository schoolClassRepository;
 
-    //Constructor
-    public PlayerService(PlayerRepository playerRepository) {
+    public PlayerService(PlayerRepository playerRepository,
+                         SchoolClassRepository schoolClassRepository) {
         this.playerRepository = playerRepository;
+        this.schoolClassRepository = schoolClassRepository;
     }
 
     //Post
     public Player createPlayer(Player player) {
+        if (player.getSchoolClass() != null && player.getSchoolClass().getId() != null) {
+            SchoolClass schoolClass = schoolClassRepository.findById(player.getSchoolClass().getId())
+                    .orElseThrow(() -> new RuntimeException("SchoolClass not found"));
+            player.setSchoolClass(schoolClass);
+        }
+
         return playerRepository.save(player);
     }
 
@@ -35,7 +45,11 @@ public class PlayerService {
 
         existing.setUsername(updatedPlayer.getUsername());
         existing.setPassword(updatedPlayer.getPassword());
-        existing.setSchoolClass(updatedPlayer.getSchoolClass());
+        if (updatedPlayer.getSchoolClass() != null && updatedPlayer.getSchoolClass().getId() != null) {
+            SchoolClass schoolClass = schoolClassRepository.findById(updatedPlayer.getSchoolClass().getId())
+                    .orElseThrow(() -> new RuntimeException("SchoolClass not found"));
+            existing.setSchoolClass(schoolClass);
+        }
 
         return playerRepository.save(existing);
     }

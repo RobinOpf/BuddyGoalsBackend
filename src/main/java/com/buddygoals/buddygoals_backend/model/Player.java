@@ -22,9 +22,9 @@ public class Player {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "school_class_id")
-    @JsonIgnore
     private SchoolClass schoolClass;
 
     @OneToMany(mappedBy = "player")
+    @JsonIgnore
     private List<Goal> goals = new ArrayList<>();
 }
