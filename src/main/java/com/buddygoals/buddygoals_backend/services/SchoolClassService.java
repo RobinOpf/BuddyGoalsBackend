@@ -22,10 +22,12 @@ public class SchoolClassService {
         this.playerRepository = playerRepository;
     }
 
+    //Post
     public SchoolClass createSchoolClass(SchoolClass schoolClass) {
         return schoolClassRepository.save(schoolClass);
     }
 
+    //Get by ID
     public SchoolClass getSchoolClassById(Long id) {
         return schoolClassRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
@@ -34,6 +36,14 @@ public class SchoolClassService {
                 ));
     }
 
+    //Login
+    public SchoolClass login(String username, String password) {
+        return schoolClassRepository
+                .findByTeacherNameAndPassword(username, password)
+                .orElseThrow(() -> new RuntimeException("Invalid username or password"));
+    }
+
+    //Update
     public SchoolClass updateSchoolClass(Long id, SchoolClass updatedSchoolClass) {
         SchoolClass existing = getSchoolClassById(id);
 
@@ -44,6 +54,7 @@ public class SchoolClassService {
         return schoolClassRepository.save(existing);
     }
 
+    //Delete
     public void deleteSchoolClass(Long id) {
         SchoolClass existing = getSchoolClassById(id);
         schoolClassRepository.delete(existing);

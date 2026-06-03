@@ -39,6 +39,13 @@ public class PlayerService {
                         new RuntimeException("Player not found with id: " + playerId));
     }
 
+    //Login
+    public Player login(String username, String password) {
+        return playerRepository
+                .findByUsernameAndPassword(username, password)
+                .orElseThrow(() -> new RuntimeException("Invalid username or password"));
+    }
+
     //Update
     public Player updatePlayer(Long playerId, Player updatedPlayer) {
         Player existing = getPlayer(playerId);

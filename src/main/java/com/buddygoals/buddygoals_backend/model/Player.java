@@ -18,6 +18,8 @@ public class Player {
     private long id;
 
     private String username;
+
+    @JsonIgnore
     private String password;
 
     @ManyToOne(fetch = FetchType.LAZY)

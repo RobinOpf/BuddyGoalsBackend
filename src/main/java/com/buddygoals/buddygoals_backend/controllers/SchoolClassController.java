@@ -1,5 +1,6 @@
 package com.buddygoals.buddygoals_backend.controllers;
 
+import com.buddygoals.buddygoals_backend.model.LoginRequest;
 import com.buddygoals.buddygoals_backend.model.Player;
 import com.buddygoals.buddygoals_backend.model.SchoolClass;
 import com.buddygoals.buddygoals_backend.services.SchoolClassService;
@@ -25,6 +26,14 @@ public class SchoolClassController {
     @GetMapping("/{id}")
     public SchoolClass getSchoolClassById(@PathVariable Long id) {
         return schoolClassService.getSchoolClassById(id);
+    }
+
+    @PostMapping("/login")
+    public SchoolClass login(@RequestBody LoginRequest request) {
+        return schoolClassService.login(
+                request.getUsername(),
+                request.getPassword()
+        );
     }
 
     @PutMapping("/{id}")

@@ -1,6 +1,7 @@
 package com.buddygoals.buddygoals_backend.controllers;
 
 import com.buddygoals.buddygoals_backend.model.Goal;
+import com.buddygoals.buddygoals_backend.model.LoginRequest;
 import com.buddygoals.buddygoals_backend.model.Player;
 import com.buddygoals.buddygoals_backend.services.PlayerService;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,14 @@ public class PlayerController {
     @GetMapping("/{id}")
     public Player get(@PathVariable Long id) {
         return playerService.getPlayer(id);
+    }
+
+    @PostMapping("/login")
+    public Player login(@RequestBody LoginRequest request) {
+        return playerService.login(
+                request.getUsername(),
+                request.getPassword()
+        );
     }
 
     @PutMapping("/{id}")
