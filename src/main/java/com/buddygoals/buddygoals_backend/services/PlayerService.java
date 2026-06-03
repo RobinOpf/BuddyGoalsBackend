@@ -39,11 +39,16 @@ public class PlayerService {
                         new RuntimeException("Player not found with id: " + playerId));
     }
 
-    //Login
     public Player login(String username, String password) {
-        return playerRepository
-                .findByUsernameAndPassword(username, password)
+        Player player = playerRepository
+                .findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Invalid username or password"));
+
+        if (!player.getPassword().equals(password)) {
+            throw new RuntimeException("Invalid username or password");
+        }
+
+        return player;
     }
 
     //Update

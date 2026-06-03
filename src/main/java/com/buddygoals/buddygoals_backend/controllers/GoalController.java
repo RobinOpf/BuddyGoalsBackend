@@ -4,6 +4,7 @@ import com.buddygoals.buddygoals_backend.model.Goal;
 import com.buddygoals.buddygoals_backend.services.GoalService;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/goals")
 public class GoalController {
@@ -27,6 +28,11 @@ public class GoalController {
     @PutMapping("/{id}")
     public Goal updateGoal(@PathVariable Long id, @RequestBody Goal goal) {
         return goalService.updateGoal(id, goal);
+    }
+
+    @PutMapping("/{id}/feed")
+    public Goal feedGoal(@PathVariable Long id, @RequestBody Goal goal) {
+        return goalService.feedGoal(id, goal);
     }
 
     @DeleteMapping("/{id}")

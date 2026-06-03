@@ -42,7 +42,9 @@ public class GoalService {
         existingGoal.setFeedingCondition(updatedGoal.getFeedingCondition());
         existingGoal.setFeedingFrequencyValue(updatedGoal.getFeedingFrequencyValue());
         existingGoal.setFeedingFrequencyUnit(updatedGoal.getFeedingFrequencyUnit());
-        existingGoal.setLastFedAt(updatedGoal.getLastFedAt());
+        if (updatedGoal.getLastFedAt() != null) {
+            existingGoal.setLastFedAt(updatedGoal.getLastFedAt());
+        }
         existingGoal.setErrorsLeft(updatedGoal.getErrorsLeft());
 
         if (updatedGoal.getPlayer() != null && updatedGoal.getPlayer().getId() != 0) {
@@ -50,6 +52,15 @@ public class GoalService {
                     .orElseThrow(() -> new RuntimeException("Player not found"));
             existingGoal.setPlayer(player);
         }
+
+        return goalRepository.save(existingGoal);
+    }
+
+    public Goal feedGoal(Long goalId, Goal updatedGoal) {
+        Goal existingGoal = getGoalById(goalId);
+
+        existingGoal.setLastFedAt(updatedGoal.getLastFedAt());
+        existingGoal.setErrorsLeft(updatedGoal.getErrorsLeft());
 
         return goalRepository.save(existingGoal);
     }

@@ -36,11 +36,16 @@ public class SchoolClassService {
                 ));
     }
 
-    //Login
     public SchoolClass login(String username, String password) {
-        return schoolClassRepository
-                .findByTeacherNameAndPassword(username, password)
+        SchoolClass schoolClass = schoolClassRepository
+                .findByTeacherName(username)
                 .orElseThrow(() -> new RuntimeException("Invalid username or password"));
+
+        if (!schoolClass.getPassword().equals(password)) {
+            throw new RuntimeException("Invalid username or password");
+        }
+
+        return schoolClass;
     }
 
     //Update
