@@ -56,7 +56,12 @@ public class PlayerService {
         Player existing = getPlayer(playerId);
 
         existing.setUsername(updatedPlayer.getUsername());
-        existing.setPassword(updatedPlayer.getPassword());
+
+        if (updatedPlayer.getPassword() != null &&
+                !updatedPlayer.getPassword().trim().isEmpty()) {
+            existing.setPassword(updatedPlayer.getPassword());
+        }
+
         if (updatedPlayer.getSchoolClass() != null && updatedPlayer.getSchoolClass().getId() != null) {
             SchoolClass schoolClass = schoolClassRepository.findById(updatedPlayer.getSchoolClass().getId())
                     .orElseThrow(() -> new RuntimeException("SchoolClass not found"));
